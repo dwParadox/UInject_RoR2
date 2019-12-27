@@ -17,6 +17,7 @@ namespace UInject_RoR2
 
         protected override void Update()
         {
+            //_component.remainingChargeTimer = 0f;
         }
 
         protected override void OnGUI()

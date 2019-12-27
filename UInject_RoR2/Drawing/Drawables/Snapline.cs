@@ -16,15 +16,17 @@ namespace UInject_RoR2.Drawing.Drawables
 
         }
 
-        public void Setup(Vector3 center, Vector3 min, Vector3 max)
+        private void Setup(Vector3 center, Vector3 min, Vector3 max)
         {
             this._center = center;
             this._min = min;
             this._max = max;
         }
 
-        public void Draw()
+        public void Draw(Vector3 center, Vector3 min, Vector3 max)
         {
+            Setup(center, min, max);
+
             Vector3 scrCenter = DrawingUtils.WorldToScreen(_center);
 
             Vector3 objMin = _center;

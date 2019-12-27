@@ -9,7 +9,6 @@ namespace UInject_RoR2.Drawing.Drawables
 {
     public interface IDrawable
     {
-        void Setup(Vector3 center, Vector3 min, Vector3 max);
-        void Draw();
+        void Draw(Vector3 center, Vector3 min, Vector3 max);
     }
 }

@@ -26,6 +26,9 @@ namespace UInject_RoR2
             CustomComponent<CharacterMaster, UCharacterMaster>.Register();
             CustomComponent<PlayerCharacterMasterController, UPlayerCharacterMaster>.Register();
             CustomComponent<TeleporterInteraction, UTeleporterInteraction>.Register();
+            CustomComponent<PurchaseInteraction, UPurchaseInteraction>.Register();
+
+            DrawingUtils.DefaultFont = Font.CreateDynamicFontFromOSFont("Calibri", 10);
         }
 
         protected override void Update()

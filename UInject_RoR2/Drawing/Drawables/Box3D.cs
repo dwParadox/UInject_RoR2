@@ -17,7 +17,7 @@ namespace UInject_RoR2.Drawing.Drawables
             points = new List<Vector3>();
         }
 
-        public void Setup(Vector3 center, Vector3 min, Vector3 max)
+        private void Setup(Vector3 center, Vector3 min, Vector3 max)
         {
             delta = new Vector3(max.x - min.x, max.y - min.y, max.z - min.z);
     
@@ -43,8 +43,10 @@ namespace UInject_RoR2.Drawing.Drawables
             GUIHelper.DrawLine(scrStart, scrEnd, 1);
         }
 
-        public void Draw()
+        public void Draw(Vector3 center, Vector3 min, Vector3 max)
         {
+            Setup(center, min, max);
+
             ConnectPoints(points[0], points[1]);
             ConnectPoints(points[1], points[6]);
             ConnectPoints(points[6], points[3]);

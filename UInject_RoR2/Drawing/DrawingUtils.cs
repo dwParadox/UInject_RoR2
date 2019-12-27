@@ -4,6 +4,8 @@ namespace UInject_RoR2.Drawing
 {
     class DrawingUtils : MonoBehaviour
     {
+        public static Font DefaultFont;
+
         public static Camera mainCam;
         public static Vector3 WorldToScreen(Vector3 wp)
         {

@@ -35,7 +35,7 @@ namespace UInject_RoR2
             if (MenuManager.GetMenu("Aimbot").GetEnabled("Aimbot"))
             {
                 var closestCharacter = Masters
-                    .Where(c => c.GetBody() != null && c.GetBody().coreTransform != null && CanSeeCharacter(c))
+                    .Where(c => c.GetBody() != null && c.GetBody().coreTransform != null && c.teamIndex == TeamIndex.Monster && CanSeeCharacter(c))
                     .OrderBy(c => Vector3.Distance(DrawingUtils.WorldToScreen(c.GetBody().coreTransform.position), new Vector3(Screen.width / 2f, Screen.height / 2f, 0f)))
                     .FirstOrDefault();
 

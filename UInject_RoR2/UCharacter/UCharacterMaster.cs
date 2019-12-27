@@ -21,7 +21,7 @@ namespace UInject_RoR2
 
         protected override void Start()
         {
-            _esp = new CharacterESP();
+            _esp = new CharacterESP(_component);
 
             if (_component.gameObject.GetComponent<AISkillDriver>() != null)
             {                

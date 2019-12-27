@@ -9,7 +9,6 @@ namespace UInject_RoR2.Drawing.Drawables
     {
         private string _menuName;
         private Dictionary<string, IDrawable> _drawables;
-        
         public Box(string menuName)
         {
             this._menuName = menuName;
@@ -31,10 +30,7 @@ namespace UInject_RoR2.Drawing.Drawables
             foreach (var d in _drawables)
             {
                 if (MenuManager.GetMenu(_menuName).GetEnabled(d.Key))
-                {
-                    d.Value.Setup(center, min, max);
-                    d.Value.Draw();
-                }
+                    d.Value.Draw(center, min, max);
             }
         }
     }

@@ -14,14 +14,18 @@ namespace UInject_RoR2.UCharacter
 {
     public class CharacterESP
     {
+        private CharacterMaster _characterMaster;
         private Box boxRenderer;
 
-        public CharacterESP()
+        public CharacterESP(CharacterMaster characterMaster)
         {
+            this._characterMaster = characterMaster;
+
             boxRenderer = new Box("ESP");
             boxRenderer.AddDrawable("2D Boxes", new Box2D());
             boxRenderer.AddDrawable("3D Boxes", new Box3D());
             boxRenderer.AddDrawable("Snaplines", new Snapline());
+            boxRenderer.AddDrawable("Display Names", new Text2D(GetDisplayName, TextPosition.Top));
         }
 
         private static Color GetColor(CharacterMaster characterMaster)
@@ -56,5 +60,8 @@ namespace UInject_RoR2.UCharacter
             GUI.color = GetColor(characterMaster);
             boxRenderer.Draw(world, minWorld, maxWorld);
         }
+
+        private string GetDisplayName() =>
+            _characterMaster.GetBody().GetDisplayName();
     }
 }
