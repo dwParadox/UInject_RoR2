@@ -17,7 +17,7 @@ namespace UInject_RoR2
         protected override void Start()
         {
             renderableBox = new Box("ESP");
-            renderableBox.AddDrawable("2D Boxes", new Box2D(false));
+            renderableBox.AddDrawable("2D Boxes", new Box2D());
             renderableBox.AddDrawable("3D Boxes", new Box3D());
             renderableBox.AddDrawable("Display Names", new Text2D(GetDisplayName, TextPosition.Bottom));
         }
@@ -40,7 +40,7 @@ namespace UInject_RoR2
             Vector3 max = new Vector3(center.x + size, center.y + size, center.z + size);
 
             GUI.color = Color.cyan;
-            renderableBox.Draw(center, min, max);
+            renderableBox.Draw(center, min, max, false);
         }
 
         private string GetDisplayName() =>

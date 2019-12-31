@@ -25,7 +25,7 @@ namespace UInject_RoR2
 
         public static bool CanSeeCharacter(CharacterMaster endCharacter)
         {
-            return CheckLoS(StartLocation, endCharacter.GetBody().transform.position);
+            return CheckLoS(StartLocation, endCharacter.GetBody().coreTransform.position);
         }
         
         public static void DoAimbot(PlayerCharacterMasterController _component)
@@ -35,7 +35,12 @@ namespace UInject_RoR2
             if (MenuManager.GetMenu("Aimbot").GetEnabled("Aimbot"))
             {
                 var closestCharacter = Masters
-                    .Where(c => c.GetBody() != null && c.GetBody().coreTransform != null && c.teamIndex == TeamIndex.Monster && CanSeeCharacter(c))
+                    .Where(
+                        c => c.GetBody() != null && c.GetBody().coreTransform != null &&
+                        c.teamIndex == TeamIndex.Monster &&
+                        Vector3.Distance(c.GetBody().coreTransform.position, StartLocation) < 125f && CanSeeCharacter(c)
+                    )
+
                     .OrderBy(c => Vector3.Distance(DrawingUtils.WorldToScreen(c.GetBody().coreTransform.position), new Vector3(Screen.width / 2f, Screen.height / 2f, 0f)))
                     .FirstOrDefault();
 
@@ -45,6 +50,9 @@ namespace UInject_RoR2
 
                     Vector3 closestDir = (EndLocation - StartLocation).normalized;
                     _component.master.GetBody().inputBank.aimDirection = closestDir;
+
+                    if (!MenuManager.GetMenu("Aimbot").GetEnabled("Silent Aim"))   
+                        _component.networkUser.cameraRigController.SetPitchYawFromLookVector(closestDir);
 
                     if (MenuManager.GetMenu("Aimbot").GetEnabled("Auto-Shoot"))
                         _component.master.GetBody().skillLocator.GetSkill(SkillSlot.Primary).ExecuteIfReady();

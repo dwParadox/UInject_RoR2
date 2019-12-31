@@ -25,12 +25,12 @@ namespace UInject_RoR2.Drawing.Drawables
             _drawables.Remove(key);
         }
 
-        public void Draw(Vector3 center, Vector3 min, Vector3 max)
+        public void Draw(Vector3 center, Vector3 min, Vector3 max, bool simulateWidth = true)
         {
             foreach (var d in _drawables)
             {
                 if (MenuManager.GetMenu(_menuName).GetEnabled(d.Key))
-                    d.Value.Draw(center, min, max);
+                    d.Value.Draw(center, min, max, simulateWidth);
             }
         }
     }

@@ -9,12 +9,11 @@ namespace UInject_RoR2.Drawing.Drawables
 {
     class Box2D : IDrawable
     {
-        bool _simulateWidth;
         private Vector3 _center, _min, _max;
 
-        public Box2D(bool simulateWidth = true)
+        public Box2D()
         {
-            this._simulateWidth = simulateWidth;
+
         }
 
         private void Setup(Vector3 center, Vector3 min, Vector3 max)
@@ -24,7 +23,7 @@ namespace UInject_RoR2.Drawing.Drawables
             this._max = max;
         }
 
-        public void Draw(Vector3 center, Vector3 min, Vector3 max)
+        public void Draw(Vector3 center, Vector3 min, Vector3 max, bool simulateWidth = true)
         {
             Setup(center, min, max);
 
@@ -43,7 +42,7 @@ namespace UInject_RoR2.Drawing.Drawables
                 return;
 
             float boxHeight = (scrMax.y - scrMin.y) / 2f;
-            float boxWidth = _simulateWidth ? boxHeight / 2f : boxHeight;
+            float boxWidth = simulateWidth ? boxHeight / 2f : boxHeight;
 
             GUIHelper.DrawLine(new Vector3(scrCenter.x - boxWidth, scrCenter.y - boxHeight), new Vector3(scrCenter.x + boxWidth, scrCenter.y - boxHeight), 1); // TOP
             GUIHelper.DrawLine(new Vector3(scrCenter.x - boxWidth, scrCenter.y + boxHeight), new Vector3(scrCenter.x + boxWidth, scrCenter.y + boxHeight), 1); // BOTTOM

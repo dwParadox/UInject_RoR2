@@ -23,7 +23,7 @@ namespace UInject_RoR2.Drawing.Drawables
             this._max = max;
         }
 
-        public void Draw(Vector3 center, Vector3 min, Vector3 max)
+        public void Draw(Vector3 center, Vector3 min, Vector3 max, bool simulateWidth = true)
         {
             Setup(center, min, max);
 

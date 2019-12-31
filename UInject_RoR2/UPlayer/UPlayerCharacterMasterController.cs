@@ -37,9 +37,45 @@ namespace UInject_RoR2.UPlayer
             _component.master.GetBody().baseDamage = MenuManager.GetMenu("Main").GetValue("Damage Multiplier");
         }
 
+        private static float _attackSpeedBackup = 0f;
+        private void AttackSpeed()
+        {
+            if (_attackSpeedBackup == 0f)
+            {
+                _attackSpeedBackup = _component.master.GetBody().baseAttackSpeed;
+                MenuManager.GetMenu("Main").SetValue("Attack Speed", _attackSpeedBackup);
+            }
+
+            _component.master.GetBody().baseAttackSpeed = MenuManager.GetMenu("Main").GetValue("Attack Speed");
+        }
+
+        private static float _runSpeedBackup = 0f;
+        private void RunSpeed()
+        {
+            if (_runSpeedBackup == 0f)
+            {
+                _runSpeedBackup = _component.master.GetBody().baseMoveSpeed;
+                MenuManager.GetMenu("Main").SetValue("Run Speed", _runSpeedBackup);
+            }
+
+            _component.master.GetBody().baseMoveSpeed = MenuManager.GetMenu("Main").GetValue("Run Speed");
+        }
+
+        private static float _jumpHeightBackup = 0f;
+        private void JumpHeight()
+        {
+            if (_jumpHeightBackup == 0f)
+            {
+                _jumpHeightBackup = _component.master.GetBody().baseJumpPower;
+                MenuManager.GetMenu("Main").SetValue("Jump Height", _jumpHeightBackup);
+            }
+
+            _component.master.GetBody().baseJumpPower = MenuManager.GetMenu("Main").GetValue("Jump Height");
+        }
+
         private void NoSpread()
         {
-            if (MenuManager.GetMenu("Main").GetEnabled("No Spread"))
+            if (MenuManager.GetMenu("Aimbot").GetEnabled("No Spread"))
                 _component.master.GetBody().SetSpreadBloom(0f, false);
         }
 
@@ -62,10 +98,22 @@ namespace UInject_RoR2.UPlayer
 
         protected override void Update()
         {
+            if (_component.master == null)
+                return;
+
+            if (_component.master.GetBody() == null)
+                return;
+
+            LocalUser localUser = _component.networkUser.localUser;
+            if (localUser == null)
+                return;
+
             OneShot();
+            AttackSpeed();
+            RunSpeed();
+            JumpHeight();
 
             NoSpread();
-
             NoCooldowns();
 
             PlayerAimbot.DoAimbot(_component);

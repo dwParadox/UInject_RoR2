@@ -33,7 +33,7 @@ namespace UInject_RoR2.Drawing.Drawables
             this._max = max;
         }
 
-        public void Draw(Vector3 center, Vector3 min, Vector3 max)
+        public void Draw(Vector3 center, Vector3 min, Vector3 max, bool simulateWidth = true)
         {
             Setup(center, min, max);
 
@@ -46,7 +46,7 @@ namespace UInject_RoR2.Drawing.Drawables
 
             Vector3 objMin = _center;
             Vector3 objMax = _center;
-
+             
             objMin.y -= (_max.y - _min.y) * 0.5f;
             objMax.y += (_max.y - _min.y) * 0.5f;
 

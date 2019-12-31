@@ -9,6 +9,6 @@ namespace UInject_RoR2.Drawing.Drawables
 {
     public interface IDrawable
     {
-        void Draw(Vector3 center, Vector3 min, Vector3 max);
+        void Draw(Vector3 center, Vector3 min, Vector3 max, bool simulateWidth = true);
     }
 }
