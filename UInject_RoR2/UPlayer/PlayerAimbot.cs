@@ -49,7 +49,7 @@ namespace UInject_RoR2
                 {
                     EndLocation = closestCharacter.GetBody().coreTransform.position;
 
-                    Vector3 closestDir = (EndLocation - StartLocation).normalized;
+                    Vector3 closestDir = EndLocation - StartLocation;
 
                     _player.master.GetBody().inputBank.aimDirection = closestDir;
 

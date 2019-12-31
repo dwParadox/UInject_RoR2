@@ -32,7 +32,7 @@ namespace UInject_RoR2
 
         protected override void Update()
         {
-
+            
         }
 
         protected override void OnGUI()

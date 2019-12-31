@@ -36,7 +36,6 @@ namespace UInject_RoR2.UPlayer
             if (localUser == null)
                 return;
 
-
             _cheats.DoCheats(_component);
             _aimbot.DoAimbot();
         }

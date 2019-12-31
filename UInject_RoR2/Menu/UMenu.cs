@@ -25,7 +25,7 @@ namespace UInject_RoR2.Menu
 
         private static void SpawnAs(object bodyType)
         {
-            DropInMultiplayer.DropIn.SpawnAs((string)bodyType, MenuManager.GetMenu("Main").GetInput("Player to Set"));
+            DropInMultiplayer.DropIn.SpawnAs((string)bodyType, MenuManager.GetMenu("SpawnAs").GetInput("Player to Set"));
         }
 
         public static List<MenuItem> MainMenu()
@@ -40,11 +40,6 @@ namespace UInject_RoR2.Menu
             items.Add(new MenuSlider("Run Speed", 1, 100, 1));
             items.Add(new MenuSlider("Jump Height", 1, 100, 1));
             items.Add(new MenuAction("Give Money", SetMoney));
-            items.Add(new MenuInput("Player to Set"));
-
-            foreach (var b in BodyCatalog.allBodyPrefabs)
-                items.Add(new MenuFunc("SpawnAs: " + b.name, SpawnAs, b.name));
-
             items.Add(new MenuEndScroll());
 
             return items;
@@ -80,12 +75,35 @@ namespace UInject_RoR2.Menu
             return items;
         }
 
+        public static List<MenuItem> GameMenu()
+        {
+            List<MenuItem> items = new List<MenuItem>(); 
+
+            items.Add(new MenuStartScroll());
+            items.Add(new MenuToggle("isModded"));
+            items.Add(new MenuToggle("16 Player Lobby"));
+            items.Add(new MenuEndScroll());
+
+            return items;
+        }
+
+        public static List<MenuItem> SpawnAsMenu()
+        {
+            List<MenuItem> items = new List<MenuItem>();
+            items.Add(new MenuStartScroll());
+            items.Add(new MenuInput("Player to Set"));
+            foreach (var b in BodyCatalog.allBodyPrefabs)
+                items.Add(new MenuFunc("SpawnAs: " + b.name, SpawnAs, b.name));
+
+            items.Add(new MenuEndScroll());
+            return items;
+        }
+
         public static List<MenuItem> DebugMenu()
         {
             List<MenuItem> items = new List<MenuItem>();
             items.Add(new MenuStartScroll());
             items.Add(new MenuAction("DumpObjects", DumpObjects));
-            items.Add(new MenuToggle("isModded"));
             items.Add(new MenuEndScroll());
             return items;
         }
