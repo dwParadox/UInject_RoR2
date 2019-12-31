@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UInject.UMenu;
 using UInject_RoR2.Drawing;
+using UInject_RoR2.UCharacter;
 using UnityEngine;
 
 namespace UInject_RoR2
@@ -13,28 +14,32 @@ namespace UInject_RoR2
     public class PlayerAimbot
     {
         public static List<CharacterMaster> Masters = new List<CharacterMaster>();
-        public static Vector3 EndLocation = Vector3.zero;
-        public static Vector3 StartLocation = Vector3.zero;
+        private PlayerCharacterMasterController _player;
 
-        private static bool CheckLoS(Vector3 start, Vector3 end)
+        public PlayerAimbot(PlayerCharacterMasterController player)
         {
-            Vector3 direction = end - start;
-            RaycastHit raycastHit;
-            return !Physics.Raycast(start, direction, out raycastHit, direction.magnitude, LayerIndex.world.mask, QueryTriggerInteraction.Ignore);
+            this._player = player;
         }
 
-        public static void DoAimbot(PlayerCharacterMasterController _component)
+        private Vector3 EndLocation = Vector3.zero;
+        private Vector3 StartLocation = Vector3.zero;
+
+        public void DoAimbot()
         {
-            StartLocation = _component.master.GetBody().inputBank.aimOrigin;
+            if (_player.master == null ||
+                _player.master.GetBody() == null)
+                return;
+
+            StartLocation = _player.master.GetBody().inputBank.aimOrigin;
 
             if (MenuManager.GetMenu("Aimbot").GetEnabled("Aimbot"))
             {
                 var closestCharacter = Masters
                     .Where(c =>
-                        CharacterIsValid(c) &&
-                        CharacterIsMonster(c) &&
-                        CharacterIsInRange(c) && 
-                        CanSeeCharacter(c)
+                        CharacterUtilities.IsValid(c) &&
+                        CharacterUtilities.IsMonster(c) &&
+                        CharacterUtilities.IsInRange(StartLocation, c) &&
+                        CharacterUtilities.IsVisible(StartLocation, c)
                     )
 
                     .OrderBy(c => Vector3.Distance(DrawingUtils.WorldToScreen(c.GetBody().coreTransform.position), new Vector3(Screen.width / 2f, Screen.height / 2f, 0f)))
@@ -46,27 +51,18 @@ namespace UInject_RoR2
 
                     Vector3 closestDir = (EndLocation - StartLocation).normalized;
 
-                    _component.master.GetBody().inputBank.aimDirection = closestDir;
+                    _player.master.GetBody().inputBank.aimDirection = closestDir;
 
-                    if (!MenuManager.GetMenu("Aimbot").GetEnabled("Silent Aim"))   
-                        _component.networkUser.cameraRigController.SetPitchYawFromLookVector(closestDir);
+                    if (!MenuManager.GetMenu("Aimbot").GetEnabled("Silent Aim"))
+                        _player.networkUser.cameraRigController.SetPitchYawFromLookVector(closestDir);
 
                     if (MenuManager.GetMenu("Aimbot").GetEnabled("Auto-Shoot"))
-                        _component.master.GetBody().skillLocator.GetSkill(SkillSlot.Primary).ExecuteIfReady();
+                        FireWeapon();
                 }
             }
         }
 
-        public static bool CharacterIsValid(CharacterMaster character) =>
-            character.GetBody() != null && character.GetBody().coreTransform != null;
-
-        public static bool CharacterIsMonster(CharacterMaster character) =>
-            character.teamIndex == TeamIndex.Monster;
-
-        public static bool CharacterIsInRange(CharacterMaster character) =>
-            Vector3.Distance(character.GetBody().coreTransform.position, StartLocation) < 125f;
-
-        public static bool CanSeeCharacter(CharacterMaster endCharacter) =>
-            CheckLoS(StartLocation, endCharacter.GetBody().coreTransform.position);
+        private void FireWeapon() =>
+            _player.master.GetBody().skillLocator.GetSkill(SkillSlot.Primary).ExecuteIfReady();
     }
 }

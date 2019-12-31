@@ -36,7 +36,7 @@ namespace UInject_RoR2.UCharacter
             if (characterMaster.teamIndex == TeamIndex.Neutral)
                 return Color.white;
 
-            return PlayerAimbot.CanSeeCharacter(characterMaster) ? Color.yellow : Color.red;
+            return CharacterUtilities.IsVisible(Camera.main.transform.position, characterMaster) ? Color.yellow : Color.red;
         }
 
         public void DrawCharacter(CharacterMaster characterMaster)
