@@ -23,11 +23,6 @@ namespace UInject_RoR2
             return !Physics.Raycast(start, direction, out raycastHit, direction.magnitude, LayerIndex.world.mask, QueryTriggerInteraction.Ignore);
         }
 
-        public static bool CanSeeCharacter(CharacterMaster endCharacter)
-        {
-            return CheckLoS(StartLocation, endCharacter.GetBody().coreTransform.position);
-        }
-        
         public static void DoAimbot(PlayerCharacterMasterController _component)
         {
             StartLocation = _component.master.GetBody().inputBank.aimOrigin;
@@ -35,10 +30,11 @@ namespace UInject_RoR2
             if (MenuManager.GetMenu("Aimbot").GetEnabled("Aimbot"))
             {
                 var closestCharacter = Masters
-                    .Where(
-                        c => c.GetBody() != null && c.GetBody().coreTransform != null &&
-                        c.teamIndex == TeamIndex.Monster &&
-                        Vector3.Distance(c.GetBody().coreTransform.position, StartLocation) < 125f && CanSeeCharacter(c)
+                    .Where(c =>
+                        CharacterIsValid(c) &&
+                        CharacterIsMonster(c) &&
+                        CharacterIsInRange(c) && 
+                        CanSeeCharacter(c)
                     )
 
                     .OrderBy(c => Vector3.Distance(DrawingUtils.WorldToScreen(c.GetBody().coreTransform.position), new Vector3(Screen.width / 2f, Screen.height / 2f, 0f)))
@@ -49,6 +45,7 @@ namespace UInject_RoR2
                     EndLocation = closestCharacter.GetBody().coreTransform.position;
 
                     Vector3 closestDir = (EndLocation - StartLocation).normalized;
+
                     _component.master.GetBody().inputBank.aimDirection = closestDir;
 
                     if (!MenuManager.GetMenu("Aimbot").GetEnabled("Silent Aim"))   
@@ -59,5 +56,17 @@ namespace UInject_RoR2
                 }
             }
         }
+
+        public static bool CharacterIsValid(CharacterMaster character) =>
+            character.GetBody() != null && character.GetBody().coreTransform != null;
+
+        public static bool CharacterIsMonster(CharacterMaster character) =>
+            character.teamIndex == TeamIndex.Monster;
+
+        public static bool CharacterIsInRange(CharacterMaster character) =>
+            Vector3.Distance(character.GetBody().coreTransform.position, StartLocation) < 125f;
+
+        public static bool CanSeeCharacter(CharacterMaster endCharacter) =>
+            CheckLoS(StartLocation, endCharacter.GetBody().coreTransform.position);
     }
 }
