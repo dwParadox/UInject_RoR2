@@ -52,7 +52,7 @@ namespace UInject_RoR2
             CustomSurvivor.AddRegisteredSurvivors();
         }
 
-        private bool _lastModdedFlag = false, _lastPlayerCountFlag = false;
+        private bool _lastModdedFlag = false;
         protected override void Update()
         {
             DrawingUtils.mainCam = Camera.main;
@@ -67,23 +67,10 @@ namespace UInject_RoR2
 
             // 16 Player Games
             bool is16Player = MenuManager.GetMenu("Game").GetEnabled("16 Player Lobby");
-            if (_lastPlayerCountFlag != is16Player)
-            {
-                if (is16Player)
-                {
-                    Reflection.SetFieldValue<RoR2Application>("maxPlayers", 16);
-                    Reflection.SetFieldValue<RoR2Application>("hardMaxPlayers", 16);
-                    Reflection.SetFieldValue<RoR2Application>("maxLocalPlayers", 16);
-                }
-                else
-                {
-                    Reflection.SetFieldValue<RoR2Application>("maxPlayers", 4);
-                    Reflection.SetFieldValue<RoR2Application>("hardMaxPlayers", 4);
-                    Reflection.SetFieldValue<RoR2Application>("maxLocalPlayers", 4);
-                }
 
-                _lastPlayerCountFlag = is16Player;
-            }
+            Reflection.SetFieldValue<RoR2Application>("maxPlayers", is16Player ? 16 : 4);
+            Reflection.SetFieldValue<RoR2Application>("hardMaxPlayers", is16Player ? 16 : 4);
+            Reflection.SetFieldValue<RoR2Application>("maxLocalPlayers", is16Player ? 16 : 4);
         }
 
         protected override void OnGUI()
