@@ -71,6 +71,13 @@ namespace UInject_RoR2
             Reflection.SetFieldValue<RoR2Application>("maxPlayers", is16Player ? 16 : 4);
             Reflection.SetFieldValue<RoR2Application>("hardMaxPlayers", is16Player ? 16 : 4);
             Reflection.SetFieldValue<RoR2Application>("maxLocalPlayers", is16Player ? 16 : 4);
+
+            if (Input.GetKey(KeyCode.T))
+            {
+                Run.instance.time = 0.01f;
+                Run.instance.fixedTime = 0.01f;
+            }
+
         }
 
         protected override void OnGUI()

@@ -13,6 +13,7 @@ namespace UInject_RoR2.UPlayer
         public void DoCheats(PlayerCharacterMasterController player)
         {
             OneShot(player);
+            GodMode(player);
             AttackSpeed(player);
             RunSpeed(player);
             JumpHeight(player);
@@ -30,7 +31,23 @@ namespace UInject_RoR2.UPlayer
                 MenuManager.GetMenu("Main").SetValue("Damage Multiplier", _damageBackup);
             }
 
-            player.master.GetBody().baseDamage = MenuManager.GetMenu("Main").GetValue("Damage Multiplier");
+            bool fullCheat = MenuManager.GetMenu("Main").GetEnabled("One Shot");
+
+            player.master.GetBody().baseDamage = fullCheat ? float.MaxValue : MenuManager.GetMenu("Main").GetValue("Damage Multiplier");
+        }
+
+        private static float _healthBackup = 0f;
+        private void GodMode(PlayerCharacterMasterController player)
+        {
+            if (_healthBackup == 0f)
+            {
+                _healthBackup = player.master.GetBody().baseMaxHealth;
+                MenuManager.GetMenu("Main").SetValue("Health Multiplier", _healthBackup);
+            }
+
+            bool fullCheat = MenuManager.GetMenu("Main").GetEnabled("God Mode");
+
+            player.master.GetBody().baseMaxHealth = fullCheat ? float.MaxValue : MenuManager.GetMenu("Main").GetValue("Health Multiplier");
         }
 
         private static float _attackSpeedBackup = 0f;
@@ -67,12 +84,18 @@ namespace UInject_RoR2.UPlayer
             }
 
             player.master.GetBody().baseJumpPower = MenuManager.GetMenu("Main").GetValue("Jump Height");
+            player.master.GetBody().baseJumpCount = (int)MenuManager.GetMenu("Main").GetValue("Jump Count");
         }
 
         private void NoSpread(PlayerCharacterMasterController player)
         {
             if (MenuManager.GetMenu("Aimbot").GetEnabled("No Spread"))
-                player.master.GetBody().SetSpreadBloom(0f, false);
+            {
+                player.master.GetBody().SetSpreadBloom(-100f, false);
+                player.master.GetBody().spreadBloomCurve.keys = null;
+                player.master.GetBody().spreadBloomDecayTime = 0f;
+                player.master.GetBody().InvokeMethod("SetBuffCount", BuffIndex.HealingDisabled, 100);
+            }
         }
 
         private void RechargeSkill(PlayerCharacterMasterController player, SkillSlot slot)
