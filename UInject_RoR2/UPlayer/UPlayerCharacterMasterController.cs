@@ -16,6 +16,8 @@ namespace UInject_RoR2.UPlayer
 {
     class UPlayerCharacterMaster : CustomComponent<PlayerCharacterMasterController, UPlayerCharacterMaster>
     {
+        public PlayerCharacterMasterController GetBase() => _component;
+
         private PlayerAimbot _aimbot;
         private PlayerCheats _cheats;
 
@@ -52,20 +54,8 @@ namespace UInject_RoR2.UPlayer
 
         public void FillInventory()
         {
-            var availableItems = new List<PickupIndex>();
-            availableItems.AddRange(Run.instance.availableTier1DropList);
-            availableItems.AddRange(Run.instance.availableTier2DropList);
-            availableItems.AddRange(Run.instance.availableTier3DropList);
-            availableItems.AddRange(Run.instance.availableLunarDropList);
-
-            _component.master.GetBodyObject().GetComponent<EntityStateMachine>().mainStateType = new SerializableEntityStateType(typeof(EntityStates.ScavMonster.GrantItem));
-            foreach (var i in availableItems)
-                _component.master.GetBodyObject().GetComponent<EntityStateMachine>().SetState(
-                    new EntityStates.ScavMonster.GrantItem
-                    {
-                        dropPickup = i,
-                        itemsToGrant = 1
-                    });
+            foreach (var i in DropTable.AllItems)
+                ItemDrop.AddItem(_component, i.ToString());
         }
 
         private EntityStates.NewtMonster.KickFromShop shopKick = new EntityStates.NewtMonster.KickFromShop();

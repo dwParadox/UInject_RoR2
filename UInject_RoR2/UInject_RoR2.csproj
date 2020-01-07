@@ -99,6 +99,8 @@
     <Compile Include="Drawing\Drawables\Text2D.cs" />
     <Compile Include="Drawing\GUIHelper.cs" />
     <Compile Include="DropInMultiplayer\DropIn.cs" />
+    <Compile Include="ItemDrop\DropTable.cs" />
+    <Compile Include="ItemDrop\ItemDrop.cs" />
     <Compile Include="Menu\UMenu.cs" />
     <Compile Include="Drawing\Drawables\BoundingBox.cs" />
     <Compile Include="Misc\CustomSurvivor.cs" />

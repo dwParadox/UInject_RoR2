@@ -20,12 +20,15 @@ namespace UInject_RoR2
     {
         protected override void Start()
         {
+            DropTable.BuildDropTable();
+
             // Menu Setups
             new MenuManager(Menu.UMenu.MainMenu, "Main");
             new MenuManager(Menu.UMenu.AimbotMenu, "Aimbot");
             new MenuManager(Menu.UMenu.ESPMenu, "ESP");
             new MenuManager(Menu.UMenu.GameMenu, "Game");
             new MenuManager(Menu.UMenu.SpawnAsMenu, "SpawnAs");
+            new MenuManager(Menu.UMenu.GiveItemMenu, "GiveItem");
             new MenuManager(Menu.UMenu.DebugMenu, "Debug");
 
             UDebug.Log(LogMessageType.INFO, "UInject_RoR Loaded!");
