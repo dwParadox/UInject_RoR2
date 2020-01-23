@@ -59,7 +59,7 @@ namespace UInject_RoR2.UPlayer
         }
 
         private EntityStates.NewtMonster.KickFromShop shopKick = new EntityStates.NewtMonster.KickFromShop();
-        public void FuckEar()
+        public void NoiseTest()
         {
             _component.master.GetBodyObject().GetComponent<EntityStateMachine>().mainStateType = new SerializableEntityStateType(typeof(EntityStates.NewtMonster.KickFromShop));
             _component.master.GetBodyObject().GetComponent<EntityStateMachine>().SetState(shopKick);

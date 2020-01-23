@@ -36,10 +36,10 @@ namespace UInject_RoR2.Menu
         {
             DropInMultiplayer.DropIn.SpawnAs((string)bodyType, MenuManager.GetMenu("SpawnAs").GetInput("Player to Set"));
         }
-        private static void FuckEar()
+        private static void NoiseTest()
         {
             DropInMultiplayer.DropIn.SpawnAs("ShopkeeperBody", UPlayerCharacterMaster.instance.GetName());
-            UPlayerCharacterMaster.instance.FuckEar();
+            UPlayerCharacterMaster.instance.NoiseTest();
         }
         private static void CheckSpawnVars()
         {
@@ -205,7 +205,7 @@ namespace UInject_RoR2.Menu
             List<MenuItem> items = new List<MenuItem>();
             items.Add(new MenuStartScroll());
             items.Add(new MenuAction("DumpObjects", DumpObjects));
-            items.Add(new MenuAction("Fuck Ear", FuckEar));
+            items.Add(new MenuAction("Noise Test", NoiseTest));
             items.Add(new MenuAction("Dump NetworkUser", CheckSpawnVars));
             items.Add(new MenuEndScroll());
             return items;
